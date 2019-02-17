@@ -1,20 +1,25 @@
 import sympy as sp
+from sympy import I as i,E as e
 from IPython.display import display
 
-x,y,z,t = sp.symbols("x y z t") # Variables
+x,y,z,t,r,theta,phi,k,omega = sp.symbols("x y z t r theta phi k omega") # Variables
 
-V,f,g,psi,Psi = sp.symbols("V f g psi Psi", cls = sp.Function) # Functions
+V,f,g,psi,Psi,E,p = sp.symbols("V f g psi Psi E p", cls = sp.Function) # Functions
 
-k,c,hbar,m = sp.symbols("k c hbar m", constant = True) # Constants
-# hbar = h/(2*sp.pi)
+c,hbar,m,A,B,C = sp.symbols("c hbar m A B C", constant = True) # Constants
+
+E = hbar*omega # Energy
+p = hbar*k # Momentum
 
 potential = V(x,t) #Time-Dependent Potential
 wavefunc = Psi(x,t) #Time-Dependent Wave Function
 
-SE = sp.Eq(sp.I*hbar*wavefunc.diff(t),hbar**2/(2*m) * wavefunc.diff(x,2)) # Time-Dependent Schrodinger Equation
+SE = sp.Eq(i*hbar*wavefunc.diff(t),hbar**2/(2*m) * wavefunc.diff(x,2) + potential*wavefunc).simplify() # Time-Dependent Schrodinger Equation
 
 sp.init_printing(use_latex = True)
-
 display(SE)
 
-display(sp.pdsolve(SE,wavefunc))
+generalsol = sp.Eq(wavefunc,A*e**(-i*(p*x-E*t)/hbar)).simplify()
+display(generalsol)
+
+potential = None
