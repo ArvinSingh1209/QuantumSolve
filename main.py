@@ -11,8 +11,10 @@ k,c,hbar,m = sp.symbols("k c hbar m", constant = True) # Constants
 potential = V(x,t) #Time-Dependent Potential
 wavefunc = Psi(x,t) #Time-Dependent Wave Function
 
-SE = sp.Eq(sp.I*hbar*wavefunc.diff(t),hbar**2/(2*m) * wavefunc.diff(x,2) + potential*wavefunc) # Time-Dependent Schrodinger Equation
+SE = sp.Eq(sp.I*hbar*wavefunc.diff(t),hbar**2/(2*m) * wavefunc.diff(x,2)) # Time-Dependent Schrodinger Equation
 
 sp.init_printing(use_latex = True)
 
 display(SE)
+
+display(sp.pdsolve(SE,wavefunc))
